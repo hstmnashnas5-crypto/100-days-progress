@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17251f">
+<title>۱۰۰ روز پیشرفت</title>
+<style>
+:root{--bg:#f3f5f1;--card:#fff;--ink:#1d2922;--muted:#718077;--green:#28734d;--soft:#e5f1e9;--line:#e5eae5;--orange:#ef9a45}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+main{max-width:760px;margin:auto;padding:18px 14px 44px}
+header{background:#17251f;color:#fff;border-radius:22px;padding:22px 19px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#c9d8ce;font-size:12px}
+h1{font-size:23px;margin:18px 0 6px;color:#fff}.sub{font-size:12px;color:#c9d8ce}
+.big{font-size:32px;font-weight:800;margin:18px 0 10px}.track{height:9px;background:#405348;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:#8bd0a5;border-radius:20px;transition:.2s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.stat{background:#263a30;border-radius:13px;padding:11px}.stat b{display:block;font-size:20px;color:white}.stat span{font-size:11px;color:#c9d8ce}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 3px 14px #17251f08}
+h2{font-size:16px;margin:0 0 13px}.muted{color:var(--muted);font-size:12px;line-height:1.8}
+label{font-size:12px;color:#526158;display:block;margin:11px 0 6px}
+input,textarea,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfcfa;color:var(--ink);outline:none}
+input:focus,textarea:focus{border-color:#79a98a}textarea{min-height:75px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;align-items:center;gap:8px;background:#f7faf7;border:1px solid var(--line);padding:11px;border-radius:12px;font-size:13px}.check input{width:18px;height:18px;accent-color:var(--green)}
+button{border:0;border-radius:12px;padding:12px 15px;font:inherit;font-size:13px;cursor:pointer;background:var(--green);color:#fff}
+button.secondary{background:var(--soft);color:var(--green)}button.danger{background:#fff0ed;color:#a43d2e}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.calendar{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}.day{aspect-ratio:1;border-radius:9px;background:#edf0ec;color:#65736a;font-size:11px;display:grid;place-items:center;cursor:pointer;border:1px solid transparent}.day.done{background:#d9efdf;color:#17623a}.day.partial{background:#fff0d9;color:#8a5a18}.day.active{outline:2px solid var(--green);outline-offset:1px}
+.meter{height:8px;background:#edf1ed;border-radius:20px;overflow:hidden;margin:7px 0 12px}.meter i{display:block;height:100%;background:var(--green)}
+.note{background:#fff8ec;border:1px solid #f4e3c7;border-radius:12px;padding:11px;color:#765321;font-size:12px;line-height:1.8}
+footer{text-align:center;color:#89948d;font-size:11px;margin-top:20px}
+@media(max-width:390px){.calendar{gap:4px}.day{font-size:10px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<header>
+ <div class="top"><span>داشبورد شخصی</span><span>● قابل استفاده آفلاین</span></div>
+ <h1>۱۰۰ روز پیشرفت</h1><div class="sub">هر روز یک قدم؛ عملکردت را ثبت کن و روندت را ببین.</div>
+ <div class="big" id="dayTitle">روز ۱ از ۱۰۰</div>
+ <div class="track"><div class="fill" id="overallFill"></div></div>
+ <div class="top" style="margin-top:8px"><span id="percent">۰٪ تکمیل مسیر</span><span id="dateRange"></span></div>
+ <div class="stats">
+  <div class="stat"><b id="doneDays">۰</b><span>روزهای کامل</span></div>
+  <div class="stat"><b id="totalHours">۰</b><span>ساعت مطالعه</span></div>
+  <div class="stat"><b id="totalTests">۰</b><span>تعداد تست</span></div>
+ </div>
+</header>
+
+<section class="card">
+ <h2>تنظیم شروع مسیر</h2>
+ <div class="row"><div><label for="startDate">تاریخ شروع</label><input type="date" id="startDate"></div><div><label for="dailyGoal">هدف مطالعه روزانه (ساعت)</label><input type="number" id="dailyGoal" min="0" max="24" step=".5" value="4"></div></div>
+ <div class="actions"><button id="saveSettings">ذخیره تنظیمات</button></div>
+ <p class="muted">تاریخ شروع را می‌توانی تغییر بدهی؛ اطلاعات روزها در همین گوشی باقی می‌ماند.</p>
+</section>
+
+<section class="card">
+ <h2 id="formTitle">ثبت عملکرد روز ۱</h2>
+ <div class="row">
+  <div><label for="hours">ساعت مطالعه</label><input id="hours" type="number" min="0" max="24" step=".25" placeholder="مثلاً ۳.۵"></div>
+  <div><label for="tests">تعداد تست / تمرین</label><input id="tests" type="number" min="0" step="1" placeholder="مثلاً ۴۰"></div>
+ </div>
+ <label>کارهای امروز</label>
+ <div class="checks">
+  <label class="check"><input type="checkbox" id="study"> مطالعه انجام شد</label>
+  <label class="check"><input type="checkbox" id="practice"> تست و تمرین</label>
+  <label class="check"><input type="checkbox" id="review"> مرور درس‌ها</label>
+  <label class="check"><input type="checkbox" id="plan"> برنامه‌ریزی فردا</label>
+ </div>
+ <label for="mood">ارزیابی روز</label><select id="mood"><option value="">انتخاب کن</option><option>عالی</option><option>خوب</option><option>متوسط</option><option>ضعیف</option></select>
+ <label for="notes">یادداشت و دلیل عملکرد امروز</label><textarea id="notes" placeholder="چه چیزی خوب پیش رفت؟ چه چیزی مانع شد؟"></textarea>
+ <div class="actions"><button id="saveDay">ذخیره عملکرد</button><button class="secondary" id="clearDay">پاک‌کردن فرم</button></div>
+ <p class="muted" id="saveMsg" aria-live="polite"></p>
+</section>
+
+<section class="card">
+ <h2>تقویم ۱۰۰ روزه</h2><p class="muted">برای دیدن یا ویرایش هر روز، روی شماره آن بزن.</p>
+ <div class="calendar" id="calendar"></div>
+ <div class="actions"><button class="secondary" id="todayBtn">رفتن به روز فعلی</button></div>
+</section>
+
+<section class="card">
+ <h2>تحلیل عملکرد</h2>
+ <div class="row">
+  <div><div class="muted">میانگین مطالعه در روزهای ثبت‌شده</div><b id="avgHours">۰ ساعت</b></div>
+  <div><div class="muted">میانگین انجام عادت‌ها</div><b id="habitRate">۰٪</b></div>
+ </div>
+ <label>پیشرفت ساعت مطالعه نسبت به هدف روزانه</label><div class="meter"><i id="studyMeter" style="width:0%"></i></div>
+ <label>ثبات ثبت روزانه</label><div class="meter"><i id="consistencyMeter" style="width:0%"></i></div>
+ <p class="muted" id="analysisText">با ثبت چند روز، تحلیل عملکردت اینجا نمایش داده می‌شود.</p>
+</section>
+
+<section class="card">
+ <h2>پشتیبان‌گیری از اطلاعات</h2>
+ <p class="muted">اطلاعات در حافظه مرورگر همین گوشی ذخیره می‌شود. برای انتقال یا نگهداری نسخه پشتیبان، خروجی بگیر.</p>
+ <div class="actions"><button class="secondary" id="exportBtn">دریافت فایل پشتیبان</button><button class="secondary" id="importBtn">بازیابی پشتیبان</button><input type="file" id="importFile" accept="application/json" hidden></div>
+ <div class="actions"><button class="danger" id="resetBtn">حذف همه اطلاعات</button></div>
+</section>
+<footer>نسخه آفلاین شخصی · اطلاعات فقط در مرورگر این دستگاه ذخیره می‌شود.</footer>
+</main>
+<script>
+const KEY='progress100_offline_v1';
+const fa=n=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:1}).format(n);
+const $=id=>document.getElementById(id);
+let data={start:new Date().toISOString().slice(0,10),goal:4,days:{}}, selected=1;
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.days)data=x}catch(e){} $('startDate').value=data.start;$('dailyGoal').value=data.goal||4}
+function persist(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function dayStatus(d){const x=data.days[d];if(!x)return '';const c=[x.study,x.practice,x.review,x.plan].filter(Boolean).length;return c===4?'done':(c>0||Number(x.hours)>0||Number(x.tests)>0?'partial':'')}
+function dateFor(d){let dt=new Date(data.start+'T12:00:00');dt.setDate(dt.getDate()+d-1);return dt.toLocaleDateString('fa-IR')}
+function selectDay(d){selected=d;const x=data.days[d]||{};$('formTitle').textContent='ثبت عملکرد روز '+fa(d);$('hours').value=x.hours??'';$('tests').value=x.tests??'';$('study').checked=!!x.study;$('practice').checked=!!x.practice;$('review').checked=!!x.review;$('plan').checked=!!x.plan;$('mood').value=x.mood||'';$('notes').value=x.notes||'';$('saveMsg').textContent='تاریخ این روز: '+dateFor(d);renderCalendar()}
+function saveDay(){data.days[selected]={hours:Math.max(0,Number($('hours').value)||0),tests:Math.max(0,parseInt($('tests').value)||0),study:$('study').checked,practice:$('practice').checked,review:$('review').checked,plan:$('plan').checked,mood:$('mood').value,notes:$('notes').value};persist();$('saveMsg').textContent='عملکرد روز '+fa(selected)+' ذخیره شد.'}
+function renderCalendar(){const c=$('calendar');c.innerHTML='';for(let d=1;d<=100;d++){let b=document.createElement('button');b.className='day '+dayStatus(d)+(d===selected?' active':'');b.textContent=fa(d);b.title='روز '+d+' - '+dateFor(d);b.onclick=()=>selectDay(d);c.appendChild(b)}}
+function render(){let entries=Object.values(data.days),logged=entries.length,hours=entries.reduce((s,x)=>s+(+x.hours||0),0),tests=entries.reduce((s,x)=>s+(+x.tests||0),0),done=Object.keys(data.days).filter(k=>dayStatus(+k)==='done').length;let pct=Math.round(done);$('dayTitle').textContent='روز '+fa(selected)+' از ۱۰۰';$('overallFill').style.width=pct+'%';$('percent').textContent=fa(pct)+'٪ روز کامل';$('doneDays').textContent=fa(done);$('totalHours').textContent=fa(hours);$('totalTests').textContent=fa(tests);$('dateRange').textContent=dateFor(1)+' تا '+dateFor(100);
+let avg=logged?hours/logged:0,habits=entries.reduce((s,x)=>s+[x.study,x.practice,x.review,x.plan].filter(Boolean).length,0),rate=logged?habits/(logged*4)*100:0,goal=Number(data.goal)||0,goalRate=goal?Math.min(100,avg/goal*100):0,consistency=Math.min(100,logged);$('avgHours').textContent=fa(avg)+' ساعت';$('habitRate').textContent=fa(rate)+'٪';$('studyMeter').style.width=goalRate+'%';$('consistencyMeter').style.width=consistency+'%';$('analysisText').textContent=logged?'تا اینجا '+fa(logged)+' روز اطلاعات ثبت کرده‌ای. '+(avg>=goal?'میانگین مطالعه‌ات به هدف روزانه رسیده است.':'برای رسیدن به هدف روزانه، روند مطالعه را بررسی کن.'):'با ثبت چند روز، تحلیل عملکردت اینجا نمایش داده می‌شود.';renderCalendar()}
+$('saveSettings').onclick=()=>{if($('startDate').value)data.start=$('startDate').value;data.goal=Math.max(0,Number($('dailyGoal').value)||0);persist();$('saveMsg').textContent='تنظیمات ذخیره شد.';selectDay(selected)};
+$('saveDay').onclick=saveDay;
+$('clearDay').onclick=()=>selectDay(selected);
+$('todayBtn').onclick=()=>{let a=new Date(data.start+'T12:00:00'),b=new Date();let d=Math.floor((b-a)/86400000)+1;selectDay(Math.max(1,Math.min(100,d)))};
+$('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='progress-100-backup.json';a.click();URL.revokeObjectURL(url)};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());if(!x.start||!x.days)throw Error();data=x;persist();$('startDate').value=data.start;$('dailyGoal').value=data.goal||4;selectDay(1);alert('پشتیبان بازیابی شد.')}catch(err){alert('فایل پشتیبان معتبر نیست.')}e.target.value=''};
+$('resetBtn').onclick=()=>{if(confirm('همه اطلاعات این برنامه حذف شود؟')){data={start:new Date().toISOString().slice(0,10),goal:4,days:{}};persist();$('startDate').value=data.start;$('dailyGoal').value=4;selectDay(1)}};
+load();selectDay(1);render();
+</script>
+</body></html>
